@@ -1,30 +1,21 @@
 import sys
 import gemini
-import typing_extensions as typing
-
-# response schema
-class Graph(typing.TypedDict):
-    problem: str
-    approach: str
-    materials: list[str]
-    processes: list[str]
-    metrics: list[str]
-    advantages: list[str]
+from schema import Schema, relations
 
 # open answer file
 with open(sys.argv[1]) as file:
     answers = file.read()
 
 # build prompt
-prompt = ("Using the following answers as a reference: \"" + answers + "\" find a value for each [LABEL] which satisfies the following sentences:\n" +
-"1. [MATERIALS] are used in this [APPROACH]\n" +
-"2. [PROCESSES] are used in this [APPROACH]\n" +
-"3. [APPROACH] solves [PROBLEM]\n" +
-"4. [APPROACH] evaluates [METRICS]\n" +
-"5. [APPROACH] offers [ADVANTAGES]\n"+
-"use the label values to output a single json object.")
+prompt = "Using the following answers as a reference: \"" + answers + "\" find a value for each [LABEL] which satisfies the following sentences:\n"
 
-response = gemini.generate(prompt, "application/json", list[Graph])
+# add relations to the prompt
+for i, relation in enumerate(relations):
+    prompt += f'{i+1}. {relation}\n'
+
+prompt += "use the label values to output a single json object."
+
+response = gemini.generate(prompt, "application/json", list[Schema])
 
 # write to file
 with open(sys.argv[2], 'w') as out:
