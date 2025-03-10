@@ -27,7 +27,7 @@ except:
 
 results_tracker = {}
 breaking = False
-# Populate the grid with the results of compare_files
+# Run all comparisons
 for file1 in files:
     for file2 in files:
         if file1 != file2 and (file2,file1) not in results_tracker and results_grid["metrics"][file2][file1] == -1.1:
