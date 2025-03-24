@@ -59,4 +59,39 @@ def analyze2(folderPath, catNum):
     response = gemini.generate(prompt)
     
     return response
+
+def analyze3(folderPath, catNum):
+    #Get files
+    files = sorted({f for f in os.listdir(folderPath) if os.path.isfile(os.path.join(folderPath, f))})
+
+    #Get example
+    with open("exampleGrid2.csv", "r") as exampleFile:
+        example_grid = exampleFile.read()
+    
+    catList = ["Advantages", "Approach", "Materials", "Metrics", "Problem", "Processes"]
+
+    #Build prompt
+    # Maybe more spesific area instead of just chemistry
+    prompt = ("You are going to read several answers to previously prompted questions about chemistry research papers. "
+              "For each pair of answers, evaluate the similarity on a scale of 0 to 1, 1 being identical, with 2 significant digits for the later specified category. "
+              "The category will be one of the following: "+ str(catList) + ". "
+              "Do not compare based on language similarity, prioritize similar entities and scientific compatibility. "
+              "Provide your output in the following format and only the following format to be saved as a csv: \n") + str(example_grid) +("\n"
+              "Replace each -1.1 in the table which represents the similarity of the 2 papers from the first 2 colums of the row. Paper 0 is the base paper, the rest are citations in this paper."
+              "The category goes in the top left as seen."
+              "Fill out the grid with the similarity scores for the category of "+ str(catList[catNum]) + ". Here are the papers:\n")
+    
+    
+    # Add papers
+    print( files)
+    for file in files:
+        with open(folderPath+"/"+file) as fileT:
+            fileContents = fileT.read()
+        
+        prompt += ("Paper " + file + ": \n" + fileContents + "\n")
+    print(prompt)
+
+
+    response = gemini.generate(prompt)
+    return response
     

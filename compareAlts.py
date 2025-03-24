@@ -1,6 +1,6 @@
 import os
 import sys
-from analyze import analyze, analyze2
+from analyze import analyze, analyze2, analyze3
 import re
 import time
 import json
@@ -16,9 +16,9 @@ catList = ["advantages", "approach", "materials", "metrics", "problem", "process
 
 response = ""
 for i in range(len(catList)):
-    tempRes= analyze2(folder_path, i)
+    tempRes= analyze3(folder_path, i)
     print(tempRes)
-    response += tempRes
+    response += (tempRes + "\n\n")
     time.sleep(32)
 
 
