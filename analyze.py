@@ -65,10 +65,21 @@ def analyze3(folderPath, catNum):
     files = sorted({f for f in os.listdir(folderPath) if os.path.isfile(os.path.join(folderPath, f))})
 
     #Get example
-    with open("exampleGrid2.csv", "r") as exampleFile:
+    with open("exampleTable.csv", "r") as exampleFile:
         example_grid = exampleFile.read()
     
-    catList = ["Advantages", "Approach", "Materials", "Metrics", "Problem", "Processes"]
+    catList = ["advantages", "approach", "materials", "metrics", "problem", "processes"]
+    current_category = catList[catNum]
+
+    # Create regex patterns for each category
+    category_patterns = {
+        "advantages": r"Advantages:(.*?)(?=\n\n[A-Z][a-z]+:|$)",
+        "approach": r"Approach:(.*?)(?=\n\n[A-Z][a-z]+:|$)",
+        "materials": r"Materials:(.*?)(?=\n\n[A-Z][a-z]+:|$)",
+        "metrics": r"Metrics:(.*?)(?=\n\n[A-Z][a-z]+:|$)",
+        "problem": r"Specific problem:(.*?)(?=\n\n[A-Z][a-z]+:|$)",
+        "processes": r"Materials:(.*?)(?=\n\n[A-Z][a-z]+:|$)"
+    }
 
     #Build prompt
     # Maybe more spesific area instead of just chemistry
@@ -87,8 +98,14 @@ def analyze3(folderPath, catNum):
     for file in files:
         with open(folderPath+"/"+file) as fileT:
             fileContents = fileT.read()
+             # Extract the relevant section using regex
+            match = re.search(category_patterns[current_category], fileContents, re.DOTALL)
+            if match:
+                extracted_content = match.group(1).strip()
+            else:
+                extracted_content = "No content found for this category"
         
-        prompt += ("Paper " + file + ": \n" + fileContents + "\n")
+        prompt += ("Paper " + file + ": \n" + extracted_content + "\n")
     print(prompt)
 
 
