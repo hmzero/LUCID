@@ -3,6 +3,7 @@ import gemini
 import os
 import re
 
+#compares 2 papers
 def analyze (paper1, paper2):
     # open object files
     with open(paper1) as file:
@@ -26,6 +27,7 @@ def analyze (paper1, paper2):
 
 #print(analyze(sys.argv[1],sys.argv[2]))
 
+#Uses grid format for evaluation of catatgory
 def analyze2(folderPath, catNum):
     #Get files
     files = sorted({f for f in os.listdir(folderPath) if os.path.isfile(os.path.join(folderPath, f))})
@@ -60,6 +62,7 @@ def analyze2(folderPath, catNum):
     
     return response
 
+## 2 but uses table format
 def analyze3(folderPath, catNum):
     #Get files
     files = sorted({f for f in os.listdir(folderPath) if os.path.isfile(os.path.join(folderPath, f))})

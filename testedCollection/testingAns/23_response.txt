@@ -10,6 +10,4 @@ Key findings/results: On/off current ratio of ~10^9. Hysteresis significantly re
 
 Metrics: On/off current ratio. Hysteresis width. Threshold voltage shift (due to PBTI and NBTI). Subthreshold swing.
 
-Advantages : Reduced hysteresis. Improved long-term stability (reduced BTI). Higher on/off current ratio.
-
-Novel fabrication processes/materials:
+Advantages: Reduced hysteresis. Improved long-term stability (reduced BTI). Higher on/off current ratio.

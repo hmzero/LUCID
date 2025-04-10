@@ -10,6 +10,6 @@ Key Findings/Results: Polymer-free transfer yields uniform, large-area GNR films
 
 Metrics: Raman peak positions, full width at half maximum (FWHM) of Raman peaks, UV-vis absorption spectra.
 
-Advantages : The polymer-free transfer method avoids polymer residue contamination, resulting in cleaner GNRs and improved film morphology compared to polymer-assisted transfer.
+Advantages: The polymer-free transfer method avoids polymer residue contamination, resulting in cleaner GNRs and improved film morphology compared to polymer-assisted transfer.
 
 
