@@ -35,7 +35,7 @@ def calculate_differences(grids1, grids2):
     differences = []
     matched_pairs = 0
     total_values = 0
-    
+    zeros = 0
     all_grids = set(grids1.keys()).intersection(set(grids2.keys()))
     
     for grid in sorted(all_grids):
@@ -53,9 +53,11 @@ def calculate_differences(grids1, grids2):
             
             for v1, v2 in zip(values1, values2):
                 differences.append(abs(v1 - v2))
+                if abs(v1 - v2) > .5:
+                    print(grid)
+                    print(row)
                 matched_pairs += 1
             total_values += len(values1)
-    
     return differences, matched_pairs, total_values
 
 def print_statistics(differences, matched_pairs, total_values, output_file=None):
@@ -74,14 +76,12 @@ def print_statistics(differences, matched_pairs, total_values, output_file=None)
     print(f"Maximum difference: {np.max(diffs):.4f}", file=output)
     print(f"Variance of differences: {np.var(diffs):.4f}", file=output)
     print(f"Standard deviation: {np.std(diffs):.4f}", file=output)
+    print(f"T-score: {np.mean(diffs)/(np.std(diffs)/np.sqrt(len(diffs))):.4f}", file=output)
     
 
-    print(f"T-score: {np.mean(diffs)/(np.std(diffs)/np.sqrt(len(diffs))):.4f}", file=output)
-    print(f"T-score: {:.4f}", file=output)
-t_score, p_value = stats.ttest_1samp(diffs, popmean=0)
     # Print histogram of differences
     print("\nDifference Distribution:", file=output)
-    hist, bins = np.histogram(diffs, bins=11, range=(0, np.max(diffs)))
+    hist, bins = np.histogram(diffs, bins=10, range=(0, np.max(diffs)))
     for i in range(len(hist)):
         lower = bins[i]
         upper = bins[i+1]
